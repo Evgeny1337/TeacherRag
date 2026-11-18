@@ -34,6 +34,14 @@ DEBUG = os.environ.get('DEBUG', "True")
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
 
 
+# DB_SETTINGS
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'teacher')
+POSTGRES_USER = os.environ.get('POSTGRES_USER', 'teacher')
+POSTGRES_DB = os.environ.get('POSTGRES_DB', 'teacher')
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'localhost')
+POSTGRES_PORT = os.environ.get('POSTGRES_PORT', '8083')
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -82,11 +90,11 @@ WSGI_APPLICATION = 'teacherrag.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'teacherrag',
-        'USER': 'postgres',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASSWORD,
+        'HOST': POSTGRES_HOST,
+        'PORT': POSTGRES_PORT,
     }
 }
 
