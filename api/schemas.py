@@ -1,5 +1,4 @@
 from datetime import date as Date
-from idlelib.history import History
 
 from ninja import Schema, ModelSchema
 from pydantic import Field, PositiveInt
@@ -20,6 +19,7 @@ class LessonRequestSchema(Schema):
     homework_summary: str = Field(default="", description="Краткое ДЗ")
     plan_json: dict = Field(description="План урока в JSON-формате")
     embed_text: str = Field(description="Текст для эмбеддинга")
+    is_reference: bool = Field(default=False, description="Референсный урок")
 
 
 class SimilarRequestSchema(Schema):
@@ -43,5 +43,12 @@ class MessageResponseSchema(Schema):
 class HistoryResponseSchema(ModelSchema):
     class Meta:
         model = Lesson
-        fields = ('id', 'created_at', 'aim', 'topic',)
+        fields = ("id", "created_at", "aim", "topic")
+
+
+class LessonResponseSchema(ModelSchema):
+    class Meta:
+        model = Lesson
+        fields = "__all__"
+        exclude = ["embedding"]
 

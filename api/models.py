@@ -59,6 +59,9 @@ class Lesson(models.Model):
         auto_now_add=True,
         verbose_name="Создан",
     )
+    is_reference = models.BooleanField(
+        default=False,
+    )
     class Meta:
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"

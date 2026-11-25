@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from django.shortcuts import get_object_or_404
 from ninja import Router, Status
 from pgvector.django import CosineDistance
 
@@ -9,7 +10,7 @@ from api.schemas import (
     LessonRequestSchema,
     MessageResponseSchema,
     PlansResponseSchema,
-    SimilarRequestSchema, HistoryResponseSchema,
+    SimilarRequestSchema, HistoryResponseSchema, LessonResponseSchema,
 )
 
 teacher_router = Router(tags=["lessons"])
@@ -54,5 +55,17 @@ def similar_plans(request, payload: SimilarRequestSchema):
     response={HTTPStatus.OK: list[HistoryResponseSchema]},
 )
 def get_history(request):
-    qs = Lesson.objects.only("id", "created_at", "aim", "topic").order_by("-created_at")
+    qs = Lesson.objects.filter(is_reference=False).only("id", "created_at", "aim", "topic").order_by("-created_at")
     return Status(HTTPStatus.OK, qs)
+
+
+@teacher_router.get(
+    '/{lesson_id}/data/',
+    response={
+        HTTPStatus.OK: LessonResponseSchema,
+        HTTPStatus.NOT_FOUND: dict
+    }
+)
+def get_lesson_data(request, lesson_id):
+    lesson = get_object_or_404(Lesson, pk=lesson_id)
+    return Status(HTTPStatus.OK, lesson)
