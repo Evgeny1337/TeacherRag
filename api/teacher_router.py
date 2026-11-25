@@ -9,7 +9,7 @@ from api.schemas import (
     LessonRequestSchema,
     MessageResponseSchema,
     PlansResponseSchema,
-    SimilarRequestSchema,
+    SimilarRequestSchema, HistoryResponseSchema,
 )
 
 teacher_router = Router(tags=["lessons"])
@@ -47,3 +47,12 @@ def similar_plans(request, payload: SimilarRequestSchema):
         HTTPStatus.OK,
         PlansResponseSchema(plans=plans, plans_count=len(plans)),
     )
+
+
+@teacher_router.get(
+    "/history/",
+    response={HTTPStatus.OK: list[HistoryResponseSchema]},
+)
+def get_history(request):
+    qs = Lesson.objects.only("id", "created_at", "aim", "topic").order_by("-created_at")
+    return Status(HTTPStatus.OK, qs)

@@ -1,7 +1,10 @@
 from datetime import date as Date
+from idlelib.history import History
 
-from ninja import Schema
+from ninja import Schema, ModelSchema
 from pydantic import Field, PositiveInt
+
+from api.models import Lesson
 
 
 class LessonRequestSchema(Schema):
@@ -35,3 +38,10 @@ class PlansResponseSchema(Schema):
 
 class MessageResponseSchema(Schema):
     message: str = Field(description="Сообщение о результате операции")
+
+
+class HistoryResponseSchema(ModelSchema):
+    class Meta:
+        model = Lesson
+        fields = ('id', 'created_at', 'aim', 'topic',)
+
