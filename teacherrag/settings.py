@@ -147,3 +147,10 @@ MAILERS = {
 
 
 AUTH_USER_MODEL="api.Teacher"
+
+
+CSRF_TRUSTED_ORIGINS = [
+    x.strip()
+    for x in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
+    if x.strip()
+]

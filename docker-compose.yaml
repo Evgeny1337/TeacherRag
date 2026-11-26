@@ -33,6 +33,7 @@ services:
       CELERY_RESULT_BACKEND: redis://teacher_redis:6379/1
       DEBUG: "False"
       ALLOWED_HOSTS: localhost,127.0.0.1,195.133.194.120,teacherrag.ru
+      CSRF_TRUSTED_ORIGINS: https://teacherrag.ru
     ports:
       - "127.0.0.1:8003:8000"
     restart: always
